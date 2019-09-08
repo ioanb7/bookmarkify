@@ -8,8 +8,15 @@ using System.Linq;
 
 namespace bookmarkify
 {
-    class BookMetadataImporter
+    public class BookMetadataImporter
     {
+        public ILogger Logger { get; }
+
+        public BookMetadataImporter(ILogger logger)
+        {
+            Logger = logger;
+        }
+
         public List<BookMetadata> Import(string path)
         {
             var result = new List<BookMetadata>();
@@ -27,6 +34,7 @@ namespace bookmarkify
                 var txtBookPath = bookmarkFile.FullName.Replace(".bmk.txt", ".txt");
                 if (!File.Exists(txtBookPath))
                 {
+                    Logger.Warn($"Couldn't import book for bookmark file {bookmarkFile.FullName}");
                     continue;
                 }
 

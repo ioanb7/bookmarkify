@@ -13,9 +13,11 @@ namespace bookmarkify
 
         public CharacterNormaliserConverter CharacterNormaliserConverter { get; }
 
-        public void Convert(List<string> result, string path)
+        public List<string> Convert(string path)
         {
             var lines = File.ReadAllLines(path);
+
+            var result = new List<string>();
             foreach (var line in lines)
             {
                 if (string.IsNullOrWhiteSpace(line))
@@ -25,12 +27,7 @@ namespace bookmarkify
 
                 result.Add(CharacterNormaliserConverter.Normalise(line));
             }
-        }
 
-        public List<string> Convert(string path)
-        {
-            var result = new List<string>();
-            Convert(result, path);
             return result;
         }
     }

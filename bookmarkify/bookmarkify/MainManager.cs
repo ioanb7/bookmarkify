@@ -17,7 +17,7 @@ namespace bookmarkify
             var voiceBookmarkMetadataConverter = new VoiceBookmarkMetadataConverter();
             var voiceBookMarksImporter = new VoiceBookmarksImporter(voiceBookmarkMetadataConverter, txtToListConverter);
             var simpleBookmarksImporter = new SimpleBookmarksImporter(txtToListConverter);
-            var bookMetadataImporter = new BookMetadataImporter();
+            var bookMetadataImporter = new BookMetadataImporter(logger);
             var txtBookImporter = new TxtBookImporter(txtToListConverter);
 
             var bookMetadatas = bookMetadataImporter.Import(mainPathInput);
@@ -37,8 +37,8 @@ namespace bookmarkify
                 var paragraphProximityHelper = new ParagraphProximityHelper();
                 var metadatas = paragraphProximityHelper.GetBookmarkParagraphs(paragraphsToOutput, book);
 
-                var outputLocation = mainPathOutput + "\\" + bookMetadata.BookName + ".html";
                 var htmlExporter = new HtmlExporter();
+                var outputLocation = mainPathOutput + "\\" + bookMetadata.BookName + ".html";
                 htmlExporter.Output(outputLocation, metadatas, book);
 
                 logger.Info($"Converted the book titled '{bookMetadata.BookName}' and exported it to {outputLocation} successfully.");
@@ -58,7 +58,7 @@ namespace bookmarkify
                 }
             }
 
-            throw new InvalidOperationException($"Couldn't find book import type for book import {bookMetadata.BookImportType}, path: {bookMetadata.BookPath}.");
+            throw new NotSupportedException($"Couldn't find book import type for book import {bookMetadata.BookImportType}, path: {bookMetadata.BookPath}.");
         }
 
         private IBookmarksImporter GetBookmarksImporter(VoiceBookmarksImporter voiceBookMarksImporter, SimpleBookmarksImporter simpleBookmarksImporter, BookMetadata bookMetadata)
@@ -73,7 +73,7 @@ namespace bookmarkify
                 return simpleBookmarksImporter;
             }
 
-            throw new InvalidOperationException($"Couldn't find book importer for book import type {bookMetadata.BookImportType}.");
+            throw new NotSupportedException($"Couldn't find book importer for book import type {bookMetadata.BookImportType}.");
         }
     }
 }

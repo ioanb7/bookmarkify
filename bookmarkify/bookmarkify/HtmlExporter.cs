@@ -24,21 +24,20 @@ namespace bookmarkify
                 throw new InvalidOperationException($"Missing metadatas for {OutputFilePath}.");
             }
 
-            string result = "";
+            string resultHtml = "";
             var lastArrayKey = metadatas.First().Index - 1;
-            foreach (var array in metadatas.OrderBy(x => x.Index))
+            foreach (var metadata in metadatas.OrderBy(x => x.Index))
             {
-                var paragraphIndex = array.Index;
-                var resultTemp = "";
-                resultTemp += AddMissing(lastArrayKey, paragraphIndex);
-                resultTemp += GetParagraphWrapped(array, paragraphIndex);
+                var paragraphIndex = metadata.Index;
+                var paragraphsHtml = "";
+                paragraphsHtml += AddMissing(lastArrayKey, paragraphIndex);
+                paragraphsHtml += GetParagraphWrapped(metadata, paragraphIndex);
 
-                result += resultTemp;
+                resultHtml += paragraphsHtml;
                 lastArrayKey = paragraphIndex;
             }
 
-            result = AddBeginningOfHtmlFile(result);
-            File.WriteAllText(outputFilePath, result);
+            File.WriteAllText(outputFilePath, AddBeginningOfHtmlFile(resultHtml));
         }
 
         private string GetParagraphWrapped(BookmarkParagraphIndexWithMetadata metadata, int paragraphIndex)
@@ -76,7 +75,7 @@ namespace bookmarkify
 
         private string AddBeginningOfHtmlFile(string result)
         {
-            result = @"
+            return @"
   <meta charset='UTF-8'>
 <style>
         body {
@@ -119,7 +118,6 @@ namespace bookmarkify
 
 		</style>
 " + result;
-            return result;
         }
     }
 }
