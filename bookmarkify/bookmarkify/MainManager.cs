@@ -1,7 +1,8 @@
 ﻿using bookmarkify.Models;
+using bookmarkify.Simple;
+using bookmarkify.Voice;
 using System;
 using System.Diagnostics;
-using System.IO;
 
 namespace bookmarkify
 {
@@ -11,16 +12,13 @@ namespace bookmarkify
         {
             var characterNormaliserConverter = new CharacterNormaliserConverter();
             var txtToListConverter = new TxtToListConverter(characterNormaliserConverter);
-
             var voiceBookmarkMetadataConverter = new VoiceBookmarkMetadataConverter();
             var voiceBookMarksImporter = new VoiceBookMarksImporter(voiceBookmarkMetadataConverter, txtToListConverter);
-
             var simpleBookmarksImporter = new SimpleBookmarksImporter(txtToListConverter);
-
             var bookMetadataImporter = new BookMetadataImporter();
-            var bookMetadatas = bookMetadataImporter.Import(mainPathInput);
-
             var txtToBookConverter = new TxtToBookConverter(txtToListConverter);
+
+            var bookMetadatas = bookMetadataImporter.Import(mainPathInput);
             foreach(var bookMetadata in bookMetadatas)
             {
                 var book = ImportBook(txtToBookConverter, bookMetadata);

@@ -2,7 +2,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace bookmarkify
+namespace bookmarkify.Voice
 {
     public class VoiceBookmarkMetadataConverter
     {

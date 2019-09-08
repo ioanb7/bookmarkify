@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace bookmarkify
 {
@@ -42,6 +41,7 @@ namespace bookmarkify
             {
                 Console.WriteLine($"Got metadata for line: {metadata.Index} with {metadata.IsDirectlyIndented.ToString()}");
             }
+
             return result;
         }
 

@@ -1,7 +1,7 @@
 ﻿using bookmarkify.Models;
 using System.Collections.Generic;
 
-namespace bookmarkify
+namespace bookmarkify.Simple
 {
     public class SimpleBookmarksImporter
     {
