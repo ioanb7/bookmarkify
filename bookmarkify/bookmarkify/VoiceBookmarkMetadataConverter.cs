@@ -6,10 +6,10 @@ namespace bookmarkify
 {
     public class VoiceBookmarkMetadataConverter
     {
-        public BookmarkMetadata Convert(string bookmarkTxt)
+        public BookmarkMetadata Convert(string metadataTxt)
         {
             Regex regex = new Regex(@"\*\*\* \[.*?\] (\d), \d+");
-            Match match = regex.Match(bookmarkTxt);
+            Match match = regex.Match(metadataTxt);
 
             if (match.Groups.Count != 2)
             {

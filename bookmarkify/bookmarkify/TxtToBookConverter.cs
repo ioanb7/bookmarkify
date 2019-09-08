@@ -4,16 +4,16 @@ using System.Linq;
 
 namespace bookmarkify
 {
-    public class VoiceAppTxtToBookConverter
+    public class TxtToBookConverter
     {
-        public VoiceAppTxtToBookConverter(TxtToListConverter txtToListConverter)
+        public TxtToBookConverter(TxtToListConverter txtToListConverter)
         {
             TxtToListConverter = txtToListConverter;
         }
 
         public TxtToListConverter TxtToListConverter { get; }
 
-        public Book Convert(string path)
+        public Book Import(string path)
         {
             var paragraphs = TxtToListConverter.Convert(path);
             return new Book
