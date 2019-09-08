@@ -8,12 +8,12 @@ namespace bookmarkify
 {
     public class ParagraphProximityHelper
     {
-        public List<BookmarkIndexWithMetadata> GetFullArrayRange(List<(int, string)> paragraphsToOutput, Book book)
+        public List<BookmarkIndexWithMetadata> GetFullArrayRange(List<(int, Bookmark)> paragraphsToOutput, Book book)
         {
             var resultPre = new Dictionary<int, bool>();
             var resultPreText = new Dictionary<int, List<string>>();
 
-            foreach (var paragraphToOutputTuple in paragraphsToOutput.OrderBy(x => x))
+            foreach (var paragraphToOutputTuple in paragraphsToOutput.OrderBy(x => x.Item1))
             {
                 var paragraphToOutput = paragraphToOutputTuple.Item1;
                 AddFalseIfMissing(resultPre, paragraphToOutput - 1, book);
@@ -23,7 +23,7 @@ namespace bookmarkify
                 if (!resultPreText.ContainsKey(paragraphToOutput))
                     resultPreText[paragraphToOutput] = new List<string>();
 
-                resultPreText[paragraphToOutput].Add(paragraphToOutputTuple.Item2);
+                resultPreText[paragraphToOutput].Add(paragraphToOutputTuple.Item2.Text);
             }
 
             var result = resultPre.Select(x => new BookmarkIndexWithMetadata

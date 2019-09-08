@@ -50,8 +50,13 @@ namespace bookmarkify
 
         private BookmarkCollection ExtractBookmarkCollection(IFileSystemInfo bookmarkFile)
         {
-            var bookmarks = TxtToListConverter.Convert(bookmarkFile.FullName);
-            bookmarks.RemoveAll(x => x.StartsWith("*** ["));
+            var bookmarksTxt = TxtToListConverter.Convert(bookmarkFile.FullName);
+            bookmarksTxt.RemoveAll(x => x.StartsWith("*** ["));
+
+            var bookmarks = bookmarksTxt.Select(x => new Bookmark
+            {
+                Text = x
+            }).ToList();
 
             return new BookmarkCollection
             {

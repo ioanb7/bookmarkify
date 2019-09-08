@@ -1,4 +1,5 @@
-﻿using System;
+﻿using bookmarkify.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,10 +7,10 @@ namespace bookmarkify
 {
     public class BookAndBookmarkCompiler
     {
-        public (Dictionary<string, int> findings, List<(int,string)> paragraphsToOutput) Compile(List<string> bookmarks, Models.Book book)
+        public (Dictionary<Bookmark, int> findings, List<(int, Bookmark)> paragraphsToOutput) Compile(List<Bookmark> bookmarks, Models.Book book)
         {
-            Dictionary<string, int> findings = new Dictionary<string, int>();
-            List<(int, string)> paragraphsToOutput = new List<(int, string)>();
+            Dictionary<Bookmark, int> findings = new Dictionary<Bookmark, int>();
+            List<(int, Bookmark)> paragraphsToOutput = new List<(int, Bookmark)>();
 
             // find them
             var uniqueBookmarks = bookmarks.Distinct().ToList();
@@ -23,7 +24,7 @@ namespace bookmarkify
                     var paragraph = book.Paragraphs[paragraphIndex];
                     foreach (var sentence in paragraph.Sentences)
                     {
-                        if (sentence.Contains(bookmark))
+                        if (sentence.Contains(bookmark.Text))
                         {
                             findings[bookmark]++;
                             paragraphsToOutput.Add((paragraphIndex, bookmark));
@@ -36,7 +37,7 @@ namespace bookmarkify
             return (findings, paragraphsToOutput);
         }
 
-        private static void ReportFindings(Dictionary<string, int> findings)
+        private static void ReportFindings(Dictionary<Bookmark, int> findings)
         {
             foreach (var finding in findings.Where(x => x.Value == 0))
             {
