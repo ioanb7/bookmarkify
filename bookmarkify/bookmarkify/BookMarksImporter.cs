@@ -11,10 +11,12 @@ namespace bookmarkify
 {
     public class BookMarksImporter
     {
+        public VoiceBookmarkMetadataConverter VoiceBookmarkMetadataConverter { get; }
         public TxtToListConverter TxtToListConverter { get; }
 
-        public BookMarksImporter(TxtToListConverter txtToListConverter)
+        public BookMarksImporter(VoiceBookmarkMetadataConverter voiceBookmarkMetadataConverter, TxtToListConverter txtToListConverter)
         {
+            VoiceBookmarkMetadataConverter = voiceBookmarkMetadataConverter;
             TxtToListConverter = txtToListConverter;
         }
 
@@ -51,18 +53,46 @@ namespace bookmarkify
         private BookmarkCollection ExtractBookmarkCollection(IFileSystemInfo bookmarkFile)
         {
             var bookmarksTxt = TxtToListConverter.Convert(bookmarkFile.FullName);
-            bookmarksTxt.RemoveAll(x => x.StartsWith("*** ["));
+            bookmarksTxt.RemoveAll(x => BadTexts(x));
 
-            var bookmarks = bookmarksTxt.Select(x => new Bookmark
-            {
-                Text = x
-            }).ToList();
-
-            return new BookmarkCollection
+            var result = new BookmarkCollection
             {
                 FullPath = bookmarkFile.FullName,
-                Bookmarks = bookmarks
+                Bookmarks = new List<Bookmark>()
             };
+
+            for (int bookmarksTxtIndex = 0; bookmarksTxtIndex < bookmarksTxt.Count - 1; bookmarksTxtIndex += 2)
+            {
+                var bookmarkTxt = bookmarksTxt[bookmarksTxtIndex];
+                if (!IsMetadataLine(bookmarkTxt))
+                {
+                    throw new InvalidOperationException($"{bookmarkTxt} wasn't metadata.");
+                }
+
+                BookmarkMetadata metadata = VoiceBookmarkMetadataConverter.Convert(bookmarkTxt);
+
+                bookmarkTxt = bookmarksTxt[bookmarksTxtIndex+1];
+                result.Bookmarks.Add(new Bookmark
+                {
+                    Text = bookmarkTxt,
+                    Metadata = metadata
+                });
+            }
+
+            return result;
+        }
+
+
+        private static bool IsMetadataLine(string x)
+        {
+            return x.StartsWith("*** [");
+        }
+
+        private static bool BadTexts(string x)
+        {
+            return x == "Last search start" ||
+                x.StartsWith("@Voice bookmarks exported") ||
+                x.StartsWith("xxHash: ");
         }
     }
 }

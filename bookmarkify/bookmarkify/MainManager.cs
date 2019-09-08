@@ -10,7 +10,8 @@ namespace bookmarkify
             var characterNormaliserConverter = new CharacterNormaliserConverter();
             var txtToListConverter = new TxtToListConverter(characterNormaliserConverter);
 
-            var bookMarksImporter = new BookMarksImporter(txtToListConverter);
+            var voiceBookmarkMetadataConverter = new VoiceBookmarkMetadataConverter();
+            var bookMarksImporter = new BookMarksImporter(voiceBookmarkMetadataConverter, txtToListConverter);
             var bookmarkCollections = bookMarksImporter.Import(mainPathInput);
 
             var voiceAppTxtToBookConverter = new VoiceAppTxtToBookConverter(txtToListConverter);

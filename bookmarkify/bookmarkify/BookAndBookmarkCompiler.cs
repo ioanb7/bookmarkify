@@ -13,10 +13,9 @@ namespace bookmarkify
             List<(int, Bookmark)> paragraphsToOutput = new List<(int, Bookmark)>();
 
             // find them
-            var uniqueBookmarks = bookmarks.Distinct().ToList();
-            for (int bookmarkIndex = 0; bookmarkIndex < uniqueBookmarks.Count; bookmarkIndex++)
+            for (int bookmarkIndex = 0; bookmarkIndex < bookmarks.Count; bookmarkIndex++)
             {
-                var bookmark = uniqueBookmarks[bookmarkIndex];
+                var bookmark = bookmarks[bookmarkIndex];
                 findings[bookmark] = 0;
 
                 for (int paragraphIndex = 0; paragraphIndex < book.Paragraphs.Count; paragraphIndex++)

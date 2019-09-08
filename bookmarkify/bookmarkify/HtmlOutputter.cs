@@ -10,10 +10,10 @@ namespace bookmarkify
     {
         public string FilePath { get; set; }
         public Book Book { get; set; }
-        public List<BookmarkIndexWithMetadata> Metadatas { get; set; }
+        public List<BookmarkParagraphIndexWithMetadata> Metadatas { get; set; }
 
         // sorted list
-        public void Output(string filePath, List<BookmarkIndexWithMetadata> metadatas, Book book)
+        public void Output(string filePath, List<BookmarkParagraphIndexWithMetadata> metadatas, Book book)
         {
             FilePath = filePath;
             Book = book;
@@ -41,15 +41,17 @@ namespace bookmarkify
             File.WriteAllText(filePath, result);
         }
 
-        private string GetParagraphWrapped(BookmarkIndexWithMetadata metadata, int paragraphIndex)
+        private string GetParagraphWrapped(BookmarkParagraphIndexWithMetadata metadata, int paragraphIndex)
         {
             var paragraph = Book.Paragraphs[paragraphIndex].ToString();
 
-            if (metadata.TextFound != null)
+            if (metadata.BookmarksFound != null)
             {
-                foreach (var textFound in metadata.TextFound)
+                foreach (var bookmarkFound in metadata.BookmarksFound)
                 {
-                    paragraph = paragraph.Replace(textFound, $"<span class='bookmark_selection'>{textFound}</span>");
+                    var higlightTypeInt = (int)bookmarkFound.Colour;
+                    var text = bookmarkFound.Text;
+                    paragraph = paragraph.Replace(text, $"<span class='bookmark_selection highlight_{higlightTypeInt}''>{text}</span>");
                 }
             }
 
@@ -93,11 +95,26 @@ namespace bookmarkify
 
 .bookmark_selection {
     font-style: italic;
-    background-color: red;
 }
 
 .missing {
     font-weight:0.5em;
+}
+
+.highlight_0 {
+    background-color: gray;
+}
+.highlight_1 {
+    background-color: red;
+}
+.highlight_2 {
+    background-color: yellow;
+}
+.highlight_3 {
+    background-color: pink;
+}
+.highlight_4 {
+    background-color: blue;
 }
 
 		</style>

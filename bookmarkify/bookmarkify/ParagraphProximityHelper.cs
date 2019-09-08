@@ -8,29 +8,33 @@ namespace bookmarkify
 {
     public class ParagraphProximityHelper
     {
-        public List<BookmarkIndexWithMetadata> GetFullArrayRange(List<(int, Bookmark)> paragraphsToOutput, Book book)
+        public List<BookmarkParagraphIndexWithMetadata> GetFullArrayRange(List<(int paragraphIndex, Bookmark bookmark)> paragraphsToOutput, Book book)
         {
             var resultPre = new Dictionary<int, bool>();
-            var resultPreText = new Dictionary<int, List<string>>();
+            var resultPreText = new Dictionary<int, List<BookmarkMetadata>>();
 
-            foreach (var paragraphToOutputTuple in paragraphsToOutput.OrderBy(x => x.Item1))
+            foreach (var paragraphToOutputTuple in paragraphsToOutput.OrderBy(x => x.paragraphIndex))
             {
-                var paragraphToOutput = paragraphToOutputTuple.Item1;
+                var paragraphToOutput = paragraphToOutputTuple.paragraphIndex;
                 AddFalseIfMissing(resultPre, paragraphToOutput - 1, book);
                 AddFalseIfMissing(resultPre, paragraphToOutput + 1, book);
+
                 resultPre[paragraphToOutput] = true;
+                if (!resultPreText.ContainsKey(paragraphToOutput)) {
+                    resultPreText[paragraphToOutput] = new List<BookmarkMetadata>();
+                }
 
-                if (!resultPreText.ContainsKey(paragraphToOutput))
-                    resultPreText[paragraphToOutput] = new List<string>();
-
-                resultPreText[paragraphToOutput].Add(paragraphToOutputTuple.Item2.Text);
+                resultPreText[paragraphToOutput].Add(new BookmarkMetadata {
+                    Text = paragraphToOutputTuple.bookmark.Text,
+                    Colour = paragraphToOutputTuple.bookmark.Metadata.Colour
+                });
             }
 
-            var result = resultPre.Select(x => new BookmarkIndexWithMetadata
+            var result = resultPre.Select(x => new BookmarkParagraphIndexWithMetadata
             {
                 Index = x.Key,
                 IsDirectlyIndented = x.Value,
-                TextFound = !resultPreText.ContainsKey(x.Key) ? null : resultPreText[x.Key]
+                BookmarksFound = resultPreText.ContainsKey(x.Key) ? resultPreText[x.Key] : null
             }).OrderBy(x => x.Index).ToList();
 
             foreach (var metadata in result)

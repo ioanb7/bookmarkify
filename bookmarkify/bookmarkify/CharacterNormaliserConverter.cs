@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace bookmarkify
+﻿namespace bookmarkify
 {
     public class CharacterNormaliserConverter
     {
@@ -24,8 +20,6 @@ namespace bookmarkify
             if (inputCopy.IndexOf('\u2032') > -1) inputCopy = inputCopy.Replace('\u2032', '\''); // prime
             if (inputCopy.IndexOf('\u2033') > -1) inputCopy = inputCopy.Replace('\u2033', '\"');
             inputCopy = inputCopy.Replace('\u2018', '\'').Replace('\u2019', '\'').Replace('\u201c', '\"').Replace('\u201d', '\"');
-
-            inputCopy = inputCopy.Replace("”", "\"").Replace("“", "\"");
             return inputCopy;
         }
     }

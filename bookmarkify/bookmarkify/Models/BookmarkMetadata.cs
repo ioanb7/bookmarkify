@@ -2,6 +2,7 @@
 {
     public class BookmarkMetadata
     {
-        public HighlightType HighlightType { get; set; }
+        public string Text { get; set; }
+        public HighlightType Colour { get; set; }
     }
 }
