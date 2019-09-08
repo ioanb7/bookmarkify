@@ -1,17 +1,15 @@
 ﻿using bookmarkify.Models;
-using Ganss.IO;
 using System;
 using System.Collections.Generic;
-using System.IO.Abstractions;
 
 namespace bookmarkify.Voice
 {
-    public class VoiceBookMarksImporter
+    public class VoiceBookmarksImporter : IBookmarksImporter
     {
         public VoiceBookmarkMetadataConverter VoiceBookmarkMetadataConverter { get; }
         public TxtToListConverter TxtToListConverter { get; }
 
-        public VoiceBookMarksImporter(VoiceBookmarkMetadataConverter voiceBookmarkMetadataConverter, TxtToListConverter txtToListConverter)
+        public VoiceBookmarksImporter(VoiceBookmarkMetadataConverter voiceBookmarkMetadataConverter, TxtToListConverter txtToListConverter)
         {
             VoiceBookmarkMetadataConverter = voiceBookmarkMetadataConverter;
             TxtToListConverter = txtToListConverter;

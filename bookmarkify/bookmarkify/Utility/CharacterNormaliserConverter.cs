@@ -1,9 +1,15 @@
-﻿namespace bookmarkify.Utility
+﻿using System;
+
+namespace bookmarkify.Utility
 {
     public class CharacterNormaliserConverter
     {
         public string Normalise(string input)
         {
+            if(string.IsNullOrEmpty(input))
+            {
+                throw new NullReferenceException($"null: {nameof(input)}");
+            }
             var inputCopy = input.ToString();
             if (inputCopy.IndexOf('\u2013') > -1) inputCopy = inputCopy.Replace('\u2013', '-'); // en dash
             if (inputCopy.IndexOf('\u2014') > -1) inputCopy = inputCopy.Replace('\u2014', '-'); // em dash

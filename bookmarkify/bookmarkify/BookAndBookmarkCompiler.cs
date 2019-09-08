@@ -7,6 +7,13 @@ namespace bookmarkify
 {
     public class BookAndBookmarkCompiler
     {
+        public ILogger Logger { get; }
+
+        public BookAndBookmarkCompiler(ILogger logger)
+        {
+            Logger = logger;
+        }
+
         public (Dictionary<Bookmark, int> findings, List<(int, Bookmark)> paragraphsToOutput) Compile(List<Bookmark> bookmarks, Models.Book book)
         {
             Dictionary<Bookmark, int> findings = new Dictionary<Bookmark, int>();
@@ -36,16 +43,16 @@ namespace bookmarkify
             return (findings, paragraphsToOutput);
         }
 
-        private static void ReportFindings(Dictionary<Bookmark, int> findings)
+        private void ReportFindings(Dictionary<Bookmark, int> findings)
         {
             foreach (var finding in findings.Where(x => x.Value == 0))
             {
-                Console.WriteLine($"Couldn't find bookmark {finding.Key}");
+                Logger.Warn($"Couldn't find bookmark {finding.Key}");
             }
 
             foreach (var finding in findings.Where(x => x.Value > 1))
             {
-                Console.WriteLine($"Found bookmark multiple times: {finding.Key}");
+                Logger.Warn($"Found bookmark multiple times: {finding.Key}");
             }
         }
     }

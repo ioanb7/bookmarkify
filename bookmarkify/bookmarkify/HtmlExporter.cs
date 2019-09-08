@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace bookmarkify
 {
-    public class HtmlOutputter
+    public class HtmlExporter
     {
         public string OutputFilePath { get; set; }
         public Book Book { get; set; }

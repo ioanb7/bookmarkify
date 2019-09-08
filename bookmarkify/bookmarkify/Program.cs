@@ -7,6 +7,8 @@ namespace bookmarkify
         static void Main(string[] args)
         {
             Console.WriteLine("Bookmarkify");
+            Console.WriteLine("-----------");
+            Console.WriteLine();
 
             var mainPathInput = @"H:\Projects\bookmarkify-data";
             var mainPathOutput = @"H:\Projects\bookmarkify-output";

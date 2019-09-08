@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace bookmarkify
 {
-    public class TxtToBookConverter
+    public class TxtBookImporter : IBookImporter
     {
-        public TxtToBookConverter(TxtToListConverter txtToListConverter)
+        public TxtBookImporter(TxtToListConverter txtToListConverter)
         {
             TxtToListConverter = txtToListConverter;
         }

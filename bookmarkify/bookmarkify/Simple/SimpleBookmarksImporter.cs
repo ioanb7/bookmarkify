@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace bookmarkify.Simple
 {
-    public class SimpleBookmarksImporter
+    public class SimpleBookmarksImporter : IBookmarksImporter
     {
         public TxtToListConverter TxtToListConverter { get; }
 

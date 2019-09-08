@@ -15,7 +15,7 @@ namespace bookmarkify
             var result = new List<BookMetadata>();
             if (path[path.Length - 1] == '\\')
             {
-                throw new InvalidOperationException("can't end with trailing slash.");
+                throw new InvalidOperationException($"Path {path} can't end with trailing slash.");
             }
 
             var bookmarkFiles = Glob.Expand(path + @"\**\*.bmk.txt");
@@ -63,9 +63,9 @@ namespace bookmarkify
             return GetFileByExtensionFromFolder(folderPath, ".simple").Any();
         }
 
-        private static IEnumerable<IFileSystemInfo> GetFileByExtensionFromFolder(string folderPath, string extension)
+        private static IEnumerable<IFileSystemInfo> GetFileByExtensionFromFolder(string folderPath, string filePattern)
         {
-            return Glob.Expand(folderPath + @"\" + extension);
+            return Glob.Expand(folderPath + @"\" + filePattern);
         }
     }
 }

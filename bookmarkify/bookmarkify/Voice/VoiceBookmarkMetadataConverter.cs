@@ -17,11 +17,21 @@ namespace bookmarkify.Voice
             }
 
             string colour = match.Groups[1].Value;
-            int colourInt = int.Parse(colour);
+
+            HighlightType highlightType;
+            try
+            {
+                int colourInt = int.Parse(colour);
+                highlightType = (HighlightType)colourInt;
+            }
+            catch
+            {
+                throw new InvalidOperationException($"Couldn't parse value {colour} into {nameof(HighlightType)}");
+            }
 
             return new BookmarkMetadata
             {
-                Colour = (HighlightType)colourInt
+                Colour = highlightType
             };
         }
     }
