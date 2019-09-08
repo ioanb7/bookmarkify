@@ -1,7 +1,6 @@
-﻿using System;
+﻿using bookmarkify.Utility;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace bookmarkify
 {
@@ -17,7 +16,6 @@ namespace bookmarkify
         public void Convert(List<string> result, string path)
         {
             var lines = File.ReadAllLines(path);
-
             foreach (var line in lines)
             {
                 if (string.IsNullOrWhiteSpace(line))

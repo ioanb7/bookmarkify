@@ -8,20 +8,20 @@ namespace bookmarkify
 {
     public class HtmlOutputter
     {
-        public string FilePath { get; set; }
+        public string OutputFilePath { get; set; }
         public Book Book { get; set; }
         public List<BookmarkParagraphIndexWithMetadata> Metadatas { get; set; }
 
         // sorted list
-        public void Output(string filePath, List<BookmarkParagraphIndexWithMetadata> metadatas, Book book)
+        public void Output(string outputFilePath, List<BookmarkParagraphIndexWithMetadata> metadatas, Book book)
         {
-            FilePath = filePath;
+            OutputFilePath = outputFilePath;
             Book = book;
             Metadatas = metadatas;
 
             if (!metadatas.Any())
             {
-                throw new InvalidOperationException("Missing metadatas.");
+                throw new InvalidOperationException($"Missing metadatas for {OutputFilePath}.");
             }
 
             string result = "";
@@ -38,7 +38,7 @@ namespace bookmarkify
             }
 
             result = AddBeginningOfHtmlFile(result);
-            File.WriteAllText(filePath, result);
+            File.WriteAllText(outputFilePath, result);
         }
 
         private string GetParagraphWrapped(BookmarkParagraphIndexWithMetadata metadata, int paragraphIndex)

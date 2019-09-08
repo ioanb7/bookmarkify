@@ -1,4 +1,4 @@
-﻿namespace bookmarkify
+﻿namespace bookmarkify.Utility
 {
     public class CharacterNormaliserConverter
     {

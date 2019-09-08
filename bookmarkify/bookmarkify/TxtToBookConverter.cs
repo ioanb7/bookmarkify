@@ -18,7 +18,8 @@ namespace bookmarkify
             var paragraphs = TxtToListConverter.Convert(path);
             return new Book
             {
-                Paragraphs = paragraphs.Select(x => new Paragraph { Sentences = new List<string> { x } }).ToList()
+                Paragraphs = paragraphs.Select(x => new Paragraph { Sentences = new List<string> { x } }).ToList(),
+                Path = path
             };
         }
     }
