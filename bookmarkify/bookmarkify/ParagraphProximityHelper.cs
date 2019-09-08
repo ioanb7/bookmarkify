@@ -16,15 +16,16 @@ namespace bookmarkify
             foreach (var paragraphToOutputTuple in paragraphsToOutput.OrderBy(x => x.paragraphIndex))
             {
                 var paragraphToOutput = paragraphToOutputTuple.paragraphIndex;
-                AddFalseIfMissing(resultPre, paragraphToOutput - 1, book);
-                AddFalseIfMissing(resultPre, paragraphToOutput + 1, book);
+                AddContextParagraphs(book, resultPre, paragraphToOutput);
 
                 resultPre[paragraphToOutput] = true;
-                if (!resultPreText.ContainsKey(paragraphToOutput)) {
+
+                if (!resultPreText.ContainsKey(paragraphToOutput))
+                {
                     resultPreText[paragraphToOutput] = new List<BookmarkMetadata>();
                 }
-
-                resultPreText[paragraphToOutput].Add(new BookmarkMetadata {
+                resultPreText[paragraphToOutput].Add(new BookmarkMetadata
+                {
                     Text = paragraphToOutputTuple.bookmark.Text,
                     Colour = paragraphToOutputTuple.bookmark.Metadata.Colour
                 });
@@ -42,6 +43,15 @@ namespace bookmarkify
                 Console.WriteLine($"Got metadata for line: {metadata.Index} with {metadata.IsDirectlyIndented.ToString()}");
             }
             return result;
+        }
+
+        private static void AddContextParagraphs(Book book, Dictionary<int, bool> resultPre, int paragraphToOutput)
+        {
+            for (int i = 1; i < 3; i++)
+            {
+                AddFalseIfMissing(resultPre, paragraphToOutput - i, book);
+                AddFalseIfMissing(resultPre, paragraphToOutput + i, book);
+            }
         }
 
         private static void AddFalseIfMissing(Dictionary<int, bool> result, int paragraphToOutput, Book book)
