@@ -6,10 +6,10 @@ namespace bookmarkify
 {
     public class BookAndBookmarkCompiler
     {
-        public (Dictionary<string, int> findings, List<int> paragraphsToOutput) Compile(List<string> bookmarks, Models.Book book)
+        public (Dictionary<string, int> findings, List<(int,string)> paragraphsToOutput) Compile(List<string> bookmarks, Models.Book book)
         {
             Dictionary<string, int> findings = new Dictionary<string, int>();
-            List<int> paragraphsToOutput = new List<int>();
+            List<(int, string)> paragraphsToOutput = new List<(int, string)>();
 
             // find them
             var uniqueBookmarks = bookmarks.Distinct().ToList();
@@ -26,7 +26,7 @@ namespace bookmarkify
                         if (sentence.Contains(bookmark))
                         {
                             findings[bookmark]++;
-                            paragraphsToOutput.Add(paragraphIndex);
+                            paragraphsToOutput.Add((paragraphIndex, bookmark));
                         }
                     }
                 }

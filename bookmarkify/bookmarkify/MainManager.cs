@@ -1,21 +1,14 @@
-﻿using bookmarkify.Models;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace bookmarkify
 {
     public class MainManager
     {
-        public void Run()
+        public void Run(string mainPathInput, string mainPathOutput)
         {
-            var mainPathInput = @"H:\Projects\bookmarkify-data";
-            var mainPathOutput = @"H:\Projects\bookmarkify-output";
-
-            var txtToListConverter = new TxtToListConverter();
+            var characterNormaliserConverter = new CharacterNormaliserConverter();
+            var txtToListConverter = new TxtToListConverter(characterNormaliserConverter);
 
             var bookMarksImporter = new BookMarksImporter(txtToListConverter);
             var bookmarkCollections = bookMarksImporter.Import(mainPathInput);
@@ -39,9 +32,9 @@ namespace bookmarkify
                 var outputLocation = mainPathOutput + "\\" + directoryName + ".html";
                 var htmlOutputter = new HtmlOutputter();
                 htmlOutputter.Output(outputLocation, metadatas, book);
-
-                Debugger.Break();
             }
+
+            Debugger.Break();
         }
     }
 }

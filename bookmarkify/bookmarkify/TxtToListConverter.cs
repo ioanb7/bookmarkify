@@ -7,6 +7,13 @@ namespace bookmarkify
 {
     public class TxtToListConverter
     {
+        public TxtToListConverter(CharacterNormaliserConverter characterNormaliserConverter)
+        {
+            CharacterNormaliserConverter = characterNormaliserConverter;
+        }
+
+        public CharacterNormaliserConverter CharacterNormaliserConverter { get; }
+
         public void Convert(List<string> result, string path)
         {
             var lines = File.ReadAllLines(path);
@@ -18,7 +25,7 @@ namespace bookmarkify
                     continue;
                 }
 
-                result.Add(line);
+                result.Add(CharacterNormaliserConverter.Normalise(line));
             }
         }
 

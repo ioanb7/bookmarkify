@@ -6,10 +6,13 @@ namespace bookmarkify
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Bookmarkify");
+
+            var mainPathInput = @"H:\Projects\bookmarkify-data";
+            var mainPathOutput = @"H:\Projects\bookmarkify-output";
 
             var mainManager = new MainManager();
-            mainManager.Run();
+            mainManager.Run(mainPathInput, mainPathOutput);
         }
     }
 }

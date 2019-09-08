@@ -41,12 +41,21 @@ namespace bookmarkify
             File.WriteAllText(filePath, result);
         }
 
-        private string GetParagraphWrapped(BookmarkIndexWithMetadata array, int paragraphIndex)
+        private string GetParagraphWrapped(BookmarkIndexWithMetadata metadata, int paragraphIndex)
         {
             var paragraph = Book.Paragraphs[paragraphIndex].ToString();
-            if (array.IsDirectlyIndented)
+
+            if (metadata.TextFound != null)
             {
-                paragraph = $"<b>{paragraph}</b>";
+                foreach (var textFound in metadata.TextFound)
+                {
+                    paragraph = paragraph.Replace(textFound, $"<span class='bookmark_selection'>{textFound}</span>");
+                }
+            }
+
+            if (metadata.IsDirectlyIndented)
+            {
+                paragraph = $"<span class='directly_indented'>{paragraph}</span>";
             }
 
             //return $"<p>{paragraphIndex}: {paragraph}</p>"; // DEBUG
@@ -57,7 +66,7 @@ namespace bookmarkify
         {
             if (lastArrayKey != paragraphIndex - 1)
             {
-                return $"<p><i class='missing'>...</i></p>";
+                return $"<p><span class='missing'>...</span></p>";
             }
 
             return "";
@@ -66,6 +75,7 @@ namespace bookmarkify
         private string AddBeginningOfHtmlFile(string result)
         {
             result = @"
+  <meta charset='UTF-8'>
 <style>
         body {
 			margin-left:50px;
@@ -80,6 +90,16 @@ namespace bookmarkify
 			margin:0 auto;
             margin-top:75px;
         }
+
+.bookmark_selection {
+    font-style: italic;
+    background-color: red;
+}
+
+.missing {
+    font-weight:0.5em;
+}
+
 		</style>
 " + result;
             return result;
