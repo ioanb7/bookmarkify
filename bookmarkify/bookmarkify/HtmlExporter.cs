@@ -30,7 +30,7 @@ namespace bookmarkify
             {
                 var paragraphIndex = metadata.Index;
                 var paragraphsHtml = "";
-                paragraphsHtml += AddMissing(lastArrayKey, paragraphIndex);
+                paragraphsHtml += AddMissing(lastArrayKey, paragraphIndex); // TODO: this can be converted into an EmptyBookmark object
                 paragraphsHtml += GetParagraphWrapped(metadata, paragraphIndex);
 
                 resultHtml += paragraphsHtml;
@@ -77,20 +77,29 @@ namespace bookmarkify
         {
             return @"
   <meta charset='UTF-8'>
+<meta name='robots' content='noindex'>
 <style>
         body {
-			margin-left:50px;
-			margin-right:50px;
             color: white;
             background-color: black;
             font-family: 'Segoe UI';
             font-weight: 200;
 			font-size:1.3em;
-            padding: 5px;
-			width:960px;
-			margin:0 auto;
             margin-top:75px;
         }
+
+@media screen and (min-width: 10px) {
+  body {
+	width:100%;
+	margin:0 auto;
+  }
+}
+@media screen and (min-width: 975px) {
+  body {
+	width:960px;
+	margin:0 auto;
+  }
+}
 
 .bookmark_selection {
     font-style: italic;

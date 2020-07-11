@@ -21,7 +21,7 @@ namespace bookmarkify
             var txtBookImporter = new TxtBookImporter(txtToListConverter);
 
             var bookMetadatas = bookMetadataImporter.Import(mainPathInput);
-            foreach(var bookMetadata in bookMetadatas)
+            foreach (var bookMetadata in bookMetadatas)
             {
                 logger.Info($"Started converting the book titled '{bookMetadata.BookName}'.");
 
